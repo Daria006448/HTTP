@@ -20,7 +20,7 @@ import {
   openEditModal,
   openDeleteModal,
   closeModals,
-} from './modal.js';
+} from './modals.js';
 
 const addButton = document.querySelector('#add-ticket');
 
