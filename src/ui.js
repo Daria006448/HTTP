@@ -1,5 +1,38 @@
+const list = document.querySelector('#tickets');
+const loader = document.querySelector('#loader');
+
+export function showLoader() {
+  loader.classList.remove('hidden');
+}
+
+export function hideLoader() {
+  loader.classList.add('hidden');
+}
+
+export function showError(message) {
+  const error = document.querySelector('#error');
+
+  if (!error) {
+    console.error('Не найден элемент #error');
+    return;
+  }
+
+  error.textContent = message;
+  error.classList.remove('hidden');
+}
+
+export function hideError() {
+  const error = document.querySelector('#error');
+
+  if (!error) {
+    return;
+  }
+
+  error.textContent = '';
+  error.classList.add('hidden');
+}
+
 export function renderTickets(tickets, handlers) {
-  const list = document.querySelector('#tickets');
   list.innerHTML = '';
 
   tickets.forEach((ticket) => {
@@ -56,16 +89,4 @@ export function renderTickets(tickets, handlers) {
   });
 
   list.onclick = handlers.onTicketClick;
-}
-
-export function showLoader() {
-  document.querySelector('#loader').classList.remove('hidden');
-}
-
-export function hideLoader() {
-  document.querySelector('#loader').classList.add('hidden');
-}
-
-export function showError(message) {
-  alert(message);
 }

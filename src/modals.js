@@ -9,19 +9,43 @@ const confirmModal = document.querySelector('#confirm-modal');
 const confirmCancel = document.querySelector('#confirm-cancel');
 const confirmDelete = document.querySelector('#confirm-delete');
 
+let formError = null;
+
+function createFormError() {
+  formError = document.createElement('div');
+  formError.className = 'form-error hidden';
+  ticketForm.insertBefore(formError, ticketForm.firstChild);
+}
+
+function showFormError(message) {
+  if (!formError) {
+    createFormError();
+  }
+
+  formError.textContent = message;
+  formError.classList.remove('hidden');
+}
+
+function hideFormError() {
+  if (!formError) {
+    return;
+  }
+
+  formError.textContent = '';
+  formError.classList.add('hidden');
+}
 
 function getTicketData(defaultStatus) {
   const name = ticketName.value.trim();
   const description = ticketDescription.value.trim();
 
-  if(!name) {
-    ticketName.setCustomValidity('Введите краткое описание тикета');
-    ticketName.reportValidity();
+  if (!name) {
+    showFormError('Введите краткое описание тикета');
     ticketName.focus();
     return null;
   }
 
-  ticketName.setCustomValidity('');
+  hideFormError();
 
   return {
     name,
@@ -30,19 +54,23 @@ function getTicketData(defaultStatus) {
   };
 }
 
+ticketName.addEventListener('input', hideFormError);
+ticketDescription.addEventListener('input', hideFormError);
+
 export function openCreateModal(onSubmit) {
+  hideFormError();
+
   modalTitle.textContent = 'Добавить тикет';
   ticketName.value = '';
   ticketDescription.value = '';
-  ticketName.setCustomValidity('');
 
   ticketForm.onsubmit = (event) => {
     event.preventDefault();
 
     const data = getTicketData(false);
 
-    if(data) {
-      onSubmit(data)
+    if (data) {
+      onSubmit(data);
     }
   };
 
@@ -51,17 +79,18 @@ export function openCreateModal(onSubmit) {
 }
 
 export function openEditModal(ticket, onSubmit) {
+  hideFormError();
+
   modalTitle.textContent = 'Редактировать тикет';
   ticketName.value = ticket.name;
   ticketDescription.value = ticket.description;
-  ticketName.setCustomValidity('');
 
   ticketForm.onsubmit = (event) => {
     event.preventDefault();
 
     const data = getTicketData(ticket.status);
 
-    if(data) {
+    if (data) {
       onSubmit(data);
     }
   };
@@ -79,6 +108,8 @@ export function openDeleteModal(onConfirm) {
 }
 
 export function closeModals() {
+  hideFormError();
+
   confirmDelete.onclick = null;
   modal.classList.add('hidden');
   confirmModal.classList.add('hidden');
@@ -88,13 +119,13 @@ modalCancel.addEventListener('click', closeModals);
 confirmCancel.addEventListener('click', closeModals);
 
 modal.addEventListener('click', (event) => {
-  if(event.target === modal) {
+  if (event.target === modal) {
     closeModals();
-  };
-})
+  }
+});
 
 confirmModal.addEventListener('click', (event) => {
-  if(event.target === confirmModal) {
+  if (event.target === confirmModal) {
     closeModals();
-  };
+  }
 });
