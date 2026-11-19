@@ -4,7 +4,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/Daria006448/helpdesk/actions/workflows/deploy.yml/badge.svg)](https://github.com/Daria006448/helpdesk/actions/workflows/deploy.yml)
 
-[Открыть приложение на GitHub Pages](https://github.com/Daria006448/HTTP/deployments/github-pages)
+[Открыть приложение на GitHub Pages](https://daria006448.github.io/HTTP/)
 
 ## Технологии
 
